@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>정처기 실기 D-5 학습</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top" id="top">
+  <a class="brand" href="#/">정처기 실기</a>
+  <span class="dchip" id="dchip"></span><a class="sync" id="syncchip" href="#/sync">☁</a>
+  <label class="daysel">오늘을
+    <select id="daysel" aria-label="오늘을 N일차로 지정"></select>
+  </label>
+</header>
+<main id="app"><p class="muted pad">불러오는 중…</p></main>
+<nav class="tabs" id="tabs">
+  <a href="#/" data-k="home">홈</a>
+  <a href="#/lesson" data-k="lesson">학습</a>
+  <a href="#/quiz" data-k="quiz">퀴즈</a>
+  <a href="#/notes" data-k="notes">오답</a>
+  <a href="#/final" data-k="final">최종</a>
+</nav>
+<footer class="disc">본 문제는 2024~2026 복원 기출의 <b>유형</b>을 본떠 직접 만든 연습 문제이며, 기출 원문이 아닙니다. 개인 학습용.</footer>
+<script src="js/core.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script src="js/views_study.js"></script>
+<script src="js/views_review.js"></script>
+<script src="js/views_final.js"></script>
+<script src="js/views_sync.js"></script>
+<script src="js/boot.js"></script>
+</body>
+</html>
