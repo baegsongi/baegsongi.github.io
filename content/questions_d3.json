@@ -1,0 +1,295 @@
+[
+ {
+  "id": "d3-c1",
+  "day": 3,
+  "topic": "IP 서브넷",
+  "type": "calc",
+  "prompt": "다음 호스트의 브로드캐스트 주소를 쓰시오.\nIP 172.16.45.130/26",
+  "answers": [
+   "172.16.45.191"
+  ],
+  "explanation": "아파트 동 크기부터 구해 볼게요. /26이면 호스트 비트가 32−26=6개, 블록 크기는 2^6=64예요. 마지막 옥텟 블록은 0, 64, 128, 192로 시작해요.\n130은 128~191 블록 안에 있어요. 그래서 네트워크 주소는 172.16.45.128, 다음 블록이 192부터니까 브로드캐스트는 그 바로 앞 172.16.45.191이에요.\n한 줄 정리: 블록 크기 64 → 130은 128블록 → 브로드캐스트 = 다음 시작(192) − 1.",
+  "difficulty": 2,
+  "tags": [
+   "verify:subnet_broadcast",
+   "서브넷"
+  ]
+ },
+ {
+  "id": "d3-c2",
+  "day": 3,
+  "topic": "IP 서브넷",
+  "type": "calc",
+  "prompt": "서브넷 마스크가 255.255.255.224 일 때, 한 서브넷에서 호스트에 할당할 수 있는 IP 주소의 개수는?",
+  "answers": [
+   "30",
+   "30개"
+  ],
+  "explanation": "224를 이진수로 보면 11100000이라 1이 3개, 0이 5개예요. 그래서 호스트 비트는 5개, 한 블록은 2^5=32개 주소예요.\n그중 맨 앞(네트워크 주소)과 맨 뒤(브로드캐스트)는 장비에 못 줘요. 32−2=30.\n한 줄 정리: 호스트 수 = 2^(0의 개수) − 2.",
+  "difficulty": 1,
+  "tags": [
+   "verify:mask_hosts",
+   "서브넷"
+  ]
+ },
+ {
+  "id": "d3-c3",
+  "day": 3,
+  "topic": "정규화",
+  "type": "calc",
+  "prompt": "릴레이션 R(A, B, C, D, E)에서 다음 함수 종속이 성립할 때 후보키의 개수는?\n함수 종속: AB→C, C→D, D→B",
+  "answers": [
+   "3",
+   "3개"
+  ],
+  "explanation": "후보키는 '이것만 알면 전부 알 수 있는 최소 묶음'이에요. 먼저 오른쪽에 한 번도 안 나오는 속성을 찾아요. C, D, B는 오른쪽에 나오지만 A와 E는 안 나와요. 그래서 A와 E는 모든 후보키에 꼭 들어가요.\n{A,E}만으로는 아무것도 못 구해요. 하나씩 더해 볼게요. {A,B,E}: AB→C, C→D로 A,B,C,D,E 전부 → 키! {A,C,E}: C→D, D→B로 전부 → 키! {A,D,E}: D→B, AB→C로 전부 → 키!\n세 개 모두 최소라서 후보키는 ABE, ACE, ADE, 총 3개예요.\n한 줄 정리: 오른쪽에 없는 속성은 필수, 거기에 하나씩 더하며 폐쇄 확인.",
+  "difficulty": 3,
+  "tags": [
+   "verify:cand_keys_count",
+   "정규화"
+  ]
+ },
+ {
+  "id": "d3-c4",
+  "day": 3,
+  "topic": "SQL",
+  "type": "calc",
+  "prompt": "다음 테이블에 대해 SQL을 실행한 결과를 행 순서대로 쓰시오. (공백 구분)\nEMP(eid, ename, did, sal): (1,'김',10,300) (2,'이',20,250) (3,'박',NULL,400) (4,'최',30,200) (5,'정',10,500)\nDEPT(did, dname): (10,'개발') (20,'영업') (40,'기획')\n```sql\nSELECT e.ename\nFROM EMP e LEFT JOIN DEPT d ON e.did = d.did\nWHERE d.dname IS NULL\nORDER BY e.eid\n```",
+  "answers": [
+   "박 최"
+  ],
+  "explanation": "LEFT JOIN은 왼쪽(EMP)을 전부 남기고, 짝이 없으면 오른쪽 칸을 NULL로 채워요.\n박은 부서번호가 NULL이라 짝이 없고, 최는 부서번호 30인데 DEPT에는 30이 없어서 짝이 없어요. 둘 다 dname이 NULL이 돼요.\nWHERE d.dname IS NULL 로 짝 없는 사람만 남기면 박, 최. 순서는 eid 순이라 '박 최'.\n한 줄 정리: LEFT JOIN + IS NULL은 짝 없는 왼쪽 행 찾기.",
+  "difficulty": 2,
+  "tags": [
+   "verify:sql",
+   "SQL"
+  ]
+ },
+ {
+  "id": "d3-c5",
+  "day": 3,
+  "topic": "SQL",
+  "type": "calc",
+  "prompt": "다음 테이블에 대해 SQL을 실행한 결과를 쓰시오.\nEMP(eid, ename, did, sal): (1,'김',10,300) (2,'이',20,250) (3,'박',NULL,400) (4,'최',30,200) (5,'정',10,500)\nDEPT(did, dname): (10,'개발') (20,'영업') (40,'기획')\n```sql\nSELECT COUNT(*)\nFROM EMP\nWHERE sal >= (SELECT AVG(sal) FROM EMP)\n```",
+  "answers": [
+   "2"
+  ],
+  "explanation": "서브쿼리는 안쪽부터 계산해요. 급여는 300, 250, 400, 200, 500이라 합이 1650, 5명이니 평균은 330이에요.\n바깥 쿼리는 급여가 330 이상인 사람을 세요. 박(400)과 정(500) 두 명이에요.\n답은 2. 한 줄 정리: 안쪽 서브쿼리를 값으로 바꿔 놓고 바깥을 읽는다.",
+  "difficulty": 2,
+  "tags": [
+   "verify:sql",
+   "SQL"
+  ]
+ },
+ {
+  "id": "d3-t1",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "트랜잭션의 연산이 모두 정상 수행되거나 전혀 수행되지 않아야 한다는 ACID 특성은?",
+  "answers": [
+   "원자성",
+   "Atomicity",
+   "atomicity"
+  ],
+  "explanation": "이체에서 '빼기'만 되고 '넣기'가 안 되면 안 되죠. 한 줄: 전부 아니면 전무는 원자성.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t2",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "트랜잭션이 성공적으로 완료(커밋)되면 그 결과가 시스템 장애가 나도 영구적으로 보존되어야 한다는 ACID 특성은?",
+  "answers": [
+   "지속성",
+   "영속성",
+   "Durability",
+   "durability"
+  ],
+  "explanation": "커밋 도장을 찍으면 정전이 나도 남아 있어야 해요. 한 줄: 결과가 영구 보존되면 지속성(Durability).",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t3",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "하나 이상의 테이블에서 유도된, 실제 데이터를 저장하지 않는 가상 테이블은?",
+  "answers": [
+   "뷰",
+   "View",
+   "view"
+  ],
+  "explanation": "창문처럼 보기만 하는 가짜 테이블이에요. 한 줄: 가상 테이블은 뷰(View).",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t4",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "테이블의 검색 속도를 높이기 위해 컬럼 값과 위치를 별도로 저장해 두는 자료구조는?",
+  "answers": [
+   "인덱스",
+   "Index",
+   "index"
+  ],
+  "explanation": "책 뒤의 색인과 같아요. 한 줄: 검색 속도를 올리는 색인은 인덱스.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t5",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "INSERT, UPDATE, DELETE 같은 특정 이벤트가 발생하면 자동으로 실행되도록 정의해 둔 프로시저는?",
+  "answers": [
+   "트리거",
+   "Trigger",
+   "trigger"
+  ],
+  "explanation": "현관문이 열리면 자동으로 켜지는 센서등 같은 거예요. 한 줄: 이벤트에 자동 실행되면 트리거.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t6",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "외래키 값은 반드시 참조하는 테이블의 기본키에 존재하는 값이거나 NULL이어야 한다는 무결성 제약은?",
+  "answers": [
+   "참조 무결성",
+   "참조무결성",
+   "Referential Integrity"
+  ],
+  "explanation": "없는 부서 번호를 직원에 적으면 안 돼요. 한 줄: 외래키가 실제 존재해야 하면 참조 무결성.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t7",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "정규화가 덜 된 릴레이션에서 삽입·삭제·갱신 시 의도하지 않은 문제가 생기는 현상은?",
+  "answers": [
+   "이상 현상",
+   "이상현상",
+   "Anomaly",
+   "이상",
+   "삽입 이상 삭제 이상 갱신 이상"
+  ],
+  "explanation": "교수 이름이 수십 번 적힌 표에서 한 곳만 고치면 서로 달라지는 문제예요. 한 줄: 삽입·삭제·갱신 문제는 이상(Anomaly) 현상.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t8",
+  "day": 3,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "GRANT, REVOKE처럼 사용자에게 권한을 부여하거나 회수하는 SQL 명령어 종류의 약어는?",
+  "answers": [
+   "DCL",
+   "데이터 제어어",
+   "Data Control Language"
+  ],
+  "explanation": "열쇠를 주고 뺏는 명령이에요. 한 줄: 권한 부여·회수는 DCL.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t9",
+  "day": 3,
+  "topic": "UML",
+  "type": "term",
+  "prompt": "사용자(액터)의 관점에서 시스템이 제공하는 기능과 사용자 간의 관계를 나타내는 UML 다이어그램은?",
+  "answers": [
+   "유스케이스 다이어그램",
+   "유스케이스",
+   "Use Case Diagram",
+   "Use Case",
+   "use case diagram"
+  ],
+  "explanation": "'누가 무엇을 할 수 있나'를 그린 그림이에요. 한 줄: 사용자와 기능 관계는 유스케이스.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t10",
+  "day": 3,
+  "topic": "UML",
+  "type": "term",
+  "prompt": "클래스의 속성, 연산, 그리고 클래스 간의 관계를 표현하는 대표적인 UML 정적 구조 다이어그램은?",
+  "answers": [
+   "클래스 다이어그램",
+   "Class Diagram",
+   "class diagram"
+  ],
+  "explanation": "시스템의 부품 설계도예요. 한 줄: 클래스 구조와 관계는 클래스 다이어그램.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t11",
+  "day": 3,
+  "topic": "UML",
+  "type": "term",
+  "prompt": "객체 간에 주고받는 메시지를 시간 흐름에 따라 표현하는 UML 동적 다이어그램은?",
+  "answers": [
+   "시퀀스 다이어그램",
+   "Sequence Diagram",
+   "순차 다이어그램",
+   "sequence diagram"
+  ],
+  "explanation": "위에서 아래로 시간이 흐르며 누가 누구를 부르는지 그린 그림이에요. 한 줄: 시간 순 메시지는 시퀀스.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d3-t12",
+  "day": 3,
+  "topic": "UML",
+  "type": "term",
+  "prompt": "UML 클래스 간 관계 중, 전체 객체가 소멸하면 부분 객체도 함께 소멸하는 강한 소유 관계는? (속이 찬 마름모로 표시)",
+  "answers": [
+   "합성",
+   "합성 관계",
+   "Composition",
+   "composition"
+  ],
+  "explanation": "집과 방처럼 집이 사라지면 방도 사라져요. 한 줄: 전체가 사라지면 부분도 사라지는 것은 합성(Composition).",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ }
+]

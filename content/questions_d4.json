@@ -1,0 +1,306 @@
+[
+ {
+  "id": "d4-c1",
+  "day": 4,
+  "topic": "트리 순회",
+  "type": "calc",
+  "prompt": "다음 이진 트리를 전위 순회(Preorder)한 결과를 쓰시오. (공백 없이 이어서)\n레벨 순서 배열: A, B, C, D, E, -, F  ( - 는 빈 자리, 0번이 루트, i번의 왼쪽 자식은 2i+1, 오른쪽 자식은 2i+2 )",
+  "answers": [
+   "ABDECF"
+  ],
+  "explanation": "배열을 트리로 먼저 그려 볼게요. 0번 A가 루트, 1번 B와 2번 C가 자식이에요. B의 자식은 3번 D, 4번 E. C의 왼쪽(5번)은 빈 자리, 오른쪽(6번)은 F예요.\n전위는 '나 먼저, 왼쪽, 오른쪽' 순서예요. A를 읽고 왼쪽 B로 가서 B, 그 왼쪽 D, 오른쪽 E. 다시 올라와 오른쪽 C, 왼쪽은 없으니 오른쪽 F.\n순서대로 쓰면 A B D E C F. 한 줄 정리: 전위는 방문하자마자 적는다.",
+  "difficulty": 2,
+  "tags": [
+   "verify:tree_pre",
+   "트리"
+  ]
+ },
+ {
+  "id": "d4-c2",
+  "day": 4,
+  "topic": "트리 순회",
+  "type": "calc",
+  "prompt": "다음 이진 트리를 후위 순회(Postorder)한 결과를 쓰시오. (공백 없이 이어서)\n레벨 순서 배열: K, L, M, N, -, O, P, Q, R  ( - 는 빈 자리, 0번이 루트, i번의 왼쪽 자식은 2i+1, 오른쪽 자식은 2i+2 )",
+  "answers": [
+   "QRNLOPMK"
+  ],
+  "explanation": "먼저 트리를 그려요. K가 루트, 자식은 L(1번), M(2번). L의 왼쪽은 N(3번), 오른쪽(4번)은 빈 자리. M의 왼쪽은 O(5번), 오른쪽은 P(6번). N의 자식은 7번 Q, 8번 R이에요.\n후위는 '왼쪽, 오른쪽, 나 마지막'이에요. K의 왼쪽 L부터 들어가요. L의 왼쪽 N에서 또 왼쪽 Q, 오른쪽 R, 그다음 N. 그러면 L의 오른쪽은 없으니 L. 이제 K의 오른쪽 M: O, P, M. 마지막으로 K.\n이어 쓰면 Q R N L O P M K. 한 줄 정리: 후위는 자식을 다 마치고 나서 적는다.",
+  "difficulty": 3,
+  "tags": [
+   "verify:tree_post",
+   "트리"
+  ]
+ },
+ {
+  "id": "d4-c3",
+  "day": 4,
+  "topic": "후위표기",
+  "type": "calc",
+  "prompt": "다음 중위 표기식을 후위 표기식으로 바꾸시오. (공백 없이)\n중위 표기식: A*(B+C)-D/E",
+  "answers": [
+   "ABC+*DE/-"
+  ],
+  "explanation": "괄호가 있으면 괄호 안이 제일 먼저예요. (B+C)는 BC+가 돼요.\n그다음 A*(BC+)는 A BC+ * 로 ABC+*. 다음 D/E는 DE/.\n마지막으로 빼기: (ABC+*) − (DE/) 이니까 ABC+* DE/ − 를 이으면 ABC+*DE/- 예요.\n한 줄 정리: 괄호 → 곱셈·나눗셈 → 덧셈·뺄셈 순으로 묶어서 연산자를 뒤로.",
+  "difficulty": 2,
+  "tags": [
+   "verify:infix_to_postfix",
+   "후위표기"
+  ]
+ },
+ {
+  "id": "d4-c4",
+  "day": 4,
+  "topic": "후위표기",
+  "type": "calc",
+  "prompt": "다음 중위 표기식을 전위 표기식으로 바꾸시오. (공백 없이)\n중위 표기식: A+B*C-D",
+  "answers": [
+   "-+A*BCD"
+  ],
+  "explanation": "전위는 연산자를 앞에 둬요. 우선순위대로 묶어 볼게요. B*C가 제일 먼저이므로 *BC.\n그다음 같은 우선순위인 +와 −는 왼쪽부터예요. A + (B*C)는 +A*BC가 되고, 거기에 −D를 하면 −(+A*BC) D 니까 -+A*BCD.\n한 줄 정리: 같은 우선순위는 왼쪽부터 묶고, 연산자를 두 피연산자 앞으로.",
+  "difficulty": 2,
+  "tags": [
+   "verify:infix_to_prefix",
+   "후위표기"
+  ]
+ },
+ {
+  "id": "d4-c5",
+  "day": 4,
+  "topic": "후위표기",
+  "type": "calc",
+  "prompt": "다음 후위 표기식의 계산 결과를 쓰시오.\n후위 표기식: 8 3 2 * + 4 2 / -",
+  "answers": [
+   "12"
+  ],
+  "explanation": "스택에 쌓으면서 가 볼게요. 8, 3, 2를 차례로 쌓아요 [8,3,2].\n*를 만나면 위에서 두 개(3, 2)를 꺼내 곱해요: 6. 다시 쌓으면 [8,6].\n+를 만나면 8+6=14 [14]. 이어서 4, 2를 쌓아요 [14,4,2]. /를 만나면 4÷2=2 [14,2].\n마지막 −: 아래 것 − 위 것이니 14−2=12.\n한 줄 정리: 연산자를 만나면 두 개 꺼내서 (아래) 연산 (위).",
+  "difficulty": 2,
+  "tags": [
+   "verify:postfix_eval",
+   "후위표기"
+  ]
+ },
+ {
+  "id": "d4-t1",
+  "day": 4,
+  "topic": "디자인 패턴",
+  "type": "term",
+  "prompt": "클래스의 인스턴스를 오직 하나만 생성하도록 보장하고 어디서든 접근할 수 있는 전역 접근점을 제공하는 생성 패턴은?",
+  "answers": [
+   "싱글톤",
+   "싱글턴",
+   "Singleton",
+   "singleton",
+   "싱글톤 패턴"
+  ],
+  "explanation": "나라에 대통령이 한 명뿐인 것과 같아요. 한 줄: 인스턴스 하나만 = Singleton.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t2",
+  "day": 4,
+  "topic": "디자인 패턴",
+  "type": "term",
+  "prompt": "객체 생성을 위한 인터페이스는 부모 클래스에서 정의하고, 어떤 클래스의 인스턴스를 만들지는 서브클래스가 결정하는 생성 패턴은?",
+  "answers": [
+   "팩토리 메소드",
+   "팩토리 메서드",
+   "Factory Method",
+   "factory method",
+   "팩토리"
+  ],
+  "explanation": "피자 가게 본사가 '피자 만들어라'만 정하고 지점이 종류를 정하는 거예요. 한 줄: 생성 결정을 서브클래스에 맡기면 Factory Method.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t3",
+  "day": 4,
+  "topic": "디자인 패턴",
+  "type": "term",
+  "prompt": "한 객체의 상태가 변하면 그 객체에 의존하는 다른 객체들에게 자동으로 알림이 가고 갱신되도록 하는 행위 패턴은?",
+  "answers": [
+   "옵저버",
+   "Observer",
+   "observer",
+   "옵저버 패턴"
+  ],
+  "explanation": "유튜브 구독 알림과 같아요. 한 줄: 상태 변화 자동 통지는 Observer.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t4",
+  "day": 4,
+  "topic": "디자인 패턴",
+  "type": "term",
+  "prompt": "서로 호환되지 않는 인터페이스를 가진 클래스들이 함께 동작하도록 중간에서 변환해 주는 구조 패턴은?",
+  "answers": [
+   "어댑터",
+   "Adapter",
+   "adapter",
+   "어댑터 패턴"
+  ],
+  "explanation": "해외여행용 돼지코 어댑터예요. 한 줄: 인터페이스 변환은 Adapter.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t5",
+  "day": 4,
+  "topic": "테스트 기법",
+  "type": "term",
+  "prompt": "입력 값을 유효/무효 등 같은 결과를 내는 그룹으로 나누고 각 그룹의 대표값으로 테스트하는 블랙박스 기법은?",
+  "answers": [
+   "동등 분할",
+   "동치 분할",
+   "Equivalence Partitioning",
+   "equivalence partitioning",
+   "동등분할"
+  ],
+  "explanation": "시험 점수 입력에서 0~100 사이는 하나의 그룹이라 대표 하나만 넣어 봐도 돼요. 한 줄: 같은 그룹은 대표값 하나 = 동등 분할.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t6",
+  "day": 4,
+  "topic": "테스트 기법",
+  "type": "term",
+  "prompt": "입력 조건의 경계(최솟값, 최댓값과 그 바로 앞뒤)에서 오류가 발생하기 쉽다는 점에 착안한 블랙박스 테스트 기법은?",
+  "answers": [
+   "경계값 분석",
+   "경계값 테스트",
+   "Boundary Value Analysis",
+   "boundary value analysis",
+   "경계값분석"
+  ],
+  "explanation": "'100 이하'라는 조건에서 99, 100, 101을 보는 거예요. 한 줄: 경계 앞·딱·뒤를 보면 경계값 분석.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t7",
+  "day": 4,
+  "topic": "테스트 기법",
+  "type": "term",
+  "prompt": "프로그램의 모든 명령문(문장)이 적어도 한 번은 실행되도록 테스트 케이스를 설계하는 화이트박스 커버리지는?",
+  "answers": [
+   "구문 커버리지",
+   "문장 커버리지",
+   "Statement Coverage",
+   "statement coverage",
+   "구문커버리지"
+  ],
+  "explanation": "모든 줄을 한 번씩 밟아 보는 거예요. 한 줄: 모든 문장 실행 = 구문(문장) 커버리지.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t8",
+  "day": 4,
+  "topic": "테스트 기법",
+  "type": "term",
+  "prompt": "프로그램을 수정한 뒤 기존에 잘 동작하던 기능이 깨지지 않았는지 다시 확인하는 테스트는?",
+  "answers": [
+   "회귀 테스트",
+   "회귀테스트",
+   "Regression Test",
+   "Regression Testing",
+   "regression test"
+  ],
+  "explanation": "고장 난 곳을 고치다 멀쩡한 곳이 망가지지 않았는지 재확인하는 거예요. 한 줄: 수정 후 재검증은 회귀 테스트.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t9",
+  "day": 4,
+  "topic": "소프트웨어 공학",
+  "type": "term",
+  "prompt": "요구분석→설계→구현→테스트→유지보수 단계를 순차적으로 진행하며 이전 단계로 되돌아가기 어려운 전통적인 개발 모델은?",
+  "answers": [
+   "폭포수 모델",
+   "폭포수",
+   "Waterfall",
+   "waterfall",
+   "폭포수 모형",
+   "Waterfall Model"
+  ],
+  "explanation": "물이 위에서 아래로만 떨어지는 폭포 같아요. 한 줄: 단계별 순차 진행은 폭포수 모델.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t10",
+  "day": 4,
+  "topic": "소프트웨어 공학",
+  "type": "term",
+  "prompt": "스프린트(Sprint) 단위로 일하며 데일리 스크럼, 제품 백로그 등을 사용하는 대표적인 애자일 개발 방법론은?",
+  "answers": [
+   "스크럼",
+   "Scrum",
+   "scrum"
+  ],
+  "explanation": "럭비에서 모여 공을 다투는 것처럼 팀이 모여 짧게 달려요. 한 줄: 스프린트·백로그는 스크럼.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t11",
+  "day": 4,
+  "topic": "소프트웨어 공학",
+  "type": "term",
+  "prompt": "소프트웨어 개발 과정에서 산출물의 변경 이력과 버전을 체계적으로 관리하고 통제하는 활동은? (한글로)",
+  "answers": [
+   "형상 관리",
+   "형상관리",
+   "SCM",
+   "Software Configuration Management",
+   "소프트웨어 형상 관리"
+  ],
+  "explanation": "Git으로 버전을 관리하는 일의 큰 개념이에요. 한 줄: 변경과 버전 통제는 형상 관리(SCM).",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d4-t12",
+  "day": 4,
+  "topic": "소프트웨어 공학",
+  "type": "term",
+  "prompt": "소프트웨어의 외부 동작은 그대로 유지하면서 내부 구조를 개선해 가독성과 유지보수성을 높이는 작업은?",
+  "answers": [
+   "리팩토링",
+   "리팩터링",
+   "Refactoring",
+   "refactoring"
+  ],
+  "explanation": "방 가구를 재배치해서 쓰기 편하게 만드는 일이에요. 한 줄: 동작은 그대로, 구조만 개선하면 리팩토링.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ }
+]

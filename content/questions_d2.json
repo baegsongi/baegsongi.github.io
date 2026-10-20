@@ -1,0 +1,290 @@
+[
+ {
+  "id": "d2-c1",
+  "day": 2,
+  "topic": "C 포인터",
+  "type": "code",
+  "prompt": "다음 C 프로그램의 출력 결과를 순서대로 쓰시오. (줄바꿈은 공백으로 구분)\n```c\n#include <stdio.h>\n\nint main() {\n    int a[5] = {10, 20, 30, 40, 50};\n    int *p = a;\n    p += 2;\n    printf(\"%d %d\\n\", *p, *(p - 1));\n    *p++ = 99;\n    printf(\"%d %d\\n\", *p, a[2]);\n    return 0;\n}\n```",
+  "answers": [
+   "30 20 40 99"
+  ],
+  "explanation": "포인터를 쪽지라고 생각해 볼게요. p는 처음에 a[0]을 가리키고, p += 2로 a[2](30)를 가리켜요.\n첫 printf: *p=30, *(p-1)는 한 칸 앞 a[1]=20이니까 '30 20'.\n*p++ = 99 는 '지금 가리키는 곳 a[2]에 99를 넣고, 그다음 p를 한 칸 옮긴다'예요. 그래서 a[2]=99, p는 a[3]을 가리켜요.\n두 번째 printf: *p=a[3]=40, a[2]=99 → '40 99'.\n한 줄 정리: *p++ 는 쓰고 나서 이동.",
+  "difficulty": 2,
+  "tags": [
+   "verify:c",
+   "C 포인터"
+  ]
+ },
+ {
+  "id": "d2-c2",
+  "day": 2,
+  "topic": "C 포인터",
+  "type": "code",
+  "prompt": "다음 C 프로그램의 출력 결과를 순서대로 쓰시오. (공백 구분)\n```c\n#include <stdio.h>\n\nvoid swap(int *x, int *y) {\n    int t = *x;\n    *x = *y;\n    *y = t;\n}\n\nint main() {\n    int a = 3, b = 7;\n    swap(&a, &b);\n    int *p = &a;\n    int **pp = &p;\n    **pp += b;\n    printf(\"%d %d\\n\", a, b);\n    return 0;\n}\n```",
+  "answers": [
+   "10 3"
+  ],
+  "explanation": "swap은 두 쪽지(주소)를 따라가서 값을 맞바꿔요. 그래서 a=7, b=3이 돼요.\n다음 p는 a의 주소, pp는 p의 주소(쪽지의 쪽지)예요. **pp는 쪽지를 두 번 따라가서 결국 a 자체예요.\n**pp += b 는 a += b 와 같아서 7+3=10.\n출력은 a=10, b=3이니까 '10 3'.\n한 줄 정리: **pp는 쪽지의 쪽지를 따라가 결국 원래 변수.",
+  "difficulty": 2,
+  "tags": [
+   "verify:c",
+   "C 포인터"
+  ]
+ },
+ {
+  "id": "d2-c3",
+  "day": 2,
+  "topic": "C 포인터",
+  "type": "code",
+  "prompt": "다음 C 프로그램의 출력 결과를 순서대로 쓰시오. (공백 구분)\n```c\n#include <stdio.h>\n\nint main() {\n    char s[] = \"KOREA\";\n    char *p = s;\n    int n = 0;\n    while (*p) {\n        if (*p > 'K') n++;\n        p++;\n    }\n    printf(\"%d %c\\n\", n, *(p - 1));\n    return 0;\n}\n```",
+  "answers": [
+   "2 A"
+  ],
+  "explanation": "문자열 \"KOREA\"는 K,O,R,E,A 다섯 글자 뒤에 끝을 알리는 널 문자가 있어요. while(*p)는 널을 만나면 멈춰요.\n각 글자를 'K'와 비교해요(아스키 코드 비교). K는 같으니 제외, O는 K보다 커서 +1, R도 +1, E와 A는 K보다 작아서 제외. n=2.\n반복이 끝나면 p는 널 문자 위치예요. 그래서 *(p-1)은 마지막 글자 'A'.\n답은 '2 A'. 한 줄 정리: 문자는 숫자로 비교하고, 반복이 끝난 p는 널 문자 위치.",
+  "difficulty": 3,
+  "tags": [
+   "verify:c",
+   "C 포인터"
+  ]
+ },
+ {
+  "id": "d2-c4",
+  "day": 2,
+  "topic": "Java 상속·오버라이딩",
+  "type": "code",
+  "prompt": "다음 Java 프로그램의 출력 결과를 쓰시오.\n```java\nclass A {\n    String who() { return \"A\"; }\n    String hi() { return \"hi-\" + who(); }\n}\n\nclass B extends A {\n    String who() { return \"B\"; }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        A x = new B();\n        System.out.println(x.hi() + \" \" + x.who());\n    }\n}\n```",
+  "answers": [
+   "hi-B B"
+  ],
+  "explanation": "x는 A 타입 변수지만 실제 객체는 new B()예요. 메서드는 실제 객체 타입을 따라가요.\nx.hi()는 A에 있는 hi()를 실행하는데, 그 안의 who()는 B가 덮어쓴(오버라이딩) 버전이라 \"B\"가 돼요. 그래서 \"hi-B\".\nx.who()도 B의 who()라서 \"B\". 둘을 공백으로 이으면 'hi-B B'.\n한 줄 정리: 메서드는 변수 타입이 아니라 진짜 객체를 따른다.",
+  "difficulty": 2,
+  "tags": [
+   "verify:java",
+   "Java 상속·오버라이딩"
+  ]
+ },
+ {
+  "id": "d2-c5",
+  "day": 2,
+  "topic": "Java 상속·오버라이딩",
+  "type": "code",
+  "prompt": "다음 Java 프로그램의 출력 결과를 쓰시오. (공백 없이 이어서)\n```java\nclass P {\n    int v = 1;\n    P() {\n        System.out.print(\"P\");\n        init();\n    }\n    void init() { System.out.print(v); }\n}\n\nclass C extends P {\n    int v = 5;\n    C() { System.out.print(\"C\" + v); }\n    void init() { System.out.print(\"i\" + v); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        new C();\n    }\n}\n```",
+  "answers": [
+   "Pi0C5"
+  ],
+  "explanation": "new C()를 하면 자식 생성자 본문보다 먼저 부모 P의 생성자가 실행돼요. 먼저 \"P\"를 출력해요.\n그다음 init()를 부르는데, 실제 객체가 C라서 C의 init()가 실행돼요. 이때 C의 필드 v는 아직 초기화 전이라 0이에요. 그래서 \"i0\"이 출력돼요.\n부모 생성자가 끝난 뒤에야 C의 필드 v=5가 초기화되고, C의 생성자가 \"C5\"를 출력해요.\n이어 쓰면 'Pi0C5'. 한 줄 정리: 부모 생성자 안에서 부른 오버라이드 메서드는 자식 필드가 아직 기본값이다.",
+  "difficulty": 3,
+  "tags": [
+   "verify:java",
+   "Java 상속·오버라이딩"
+  ]
+ },
+ {
+  "id": "d2-t1",
+  "day": 2,
+  "topic": "보안 공격",
+  "type": "term",
+  "prompt": "TCP 3-way handshake 과정에서 SYN 패킷만 대량으로 보내 서버를 반개방 연결 상태로 만들어 자원을 고갈시키는 공격은?",
+  "answers": [
+   "SYN Flooding",
+   "SYN 플러딩",
+   "SYN Flood",
+   "신 플러딩"
+  ],
+  "explanation": "서버가 'SYN-ACK 보냈는데 답이 안 오네' 하고 연결 대기실을 계속 잡아 두다가 꽉 차는 거예요. 한 줄: SYN만 퍼붓는 것이 SYN Flooding.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t2",
+  "day": 2,
+  "topic": "보안 공격",
+  "type": "term",
+  "prompt": "출발지 주소를 피해자 IP로 위조한 ICMP Echo Request를 브로드캐스트 주소로 보내 응답이 피해자에게 몰리게 하는 공격은?",
+  "answers": [
+   "Smurfing",
+   "스머핑",
+   "Smurf",
+   "Smurf Attack"
+  ],
+  "explanation": "한 사람이 이름을 도용해 단체방에 질문을 던지면 모두가 피해자에게 답을 보내는 모양이에요. 한 줄: 브로드캐스트 + 출발지 위조 = Smurfing.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t3",
+  "day": 2,
+  "topic": "보안 공격",
+  "type": "term",
+  "prompt": "게시판 등에 악성 스크립트를 삽입해 다른 사용자의 브라우저에서 실행되게 하여 쿠키·세션 정보를 탈취하는 공격은? (약어로)",
+  "answers": [
+   "XSS",
+   "Cross Site Scripting",
+   "크로스 사이트 스크립팅",
+   "크로스사이트스크립팅"
+  ],
+  "explanation": "내 사이트에 남이 쓴 스크립트가 실행돼 버리는 거예요. 한 줄: 스크립트 삽입은 XSS(Cross Site Scripting).",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t4",
+  "day": 2,
+  "topic": "보안 공격",
+  "type": "term",
+  "prompt": "사용자가 로그인한 상태를 악용해, 사용자도 모르게 공격자가 의도한 요청(송금, 글쓰기 등)을 서버에 보내게 하는 공격은? (약어로)",
+  "answers": [
+   "CSRF",
+   "Cross Site Request Forgery",
+   "크로스 사이트 요청 위조",
+   "사이트 간 요청 위조"
+  ],
+  "explanation": "내 로그인 도장을 훔쳐 남이 대신 서류를 제출하는 거예요. 한 줄: 요청 위조는 CSRF.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t5",
+  "day": 2,
+  "topic": "보안 공격",
+  "type": "term",
+  "prompt": "웹 입력값에 SQL 구문을 삽입해 데이터베이스를 비정상적으로 조회·조작하는 공격은?",
+  "answers": [
+   "SQL Injection",
+   "SQL 인젝션",
+   "SQL 삽입",
+   "에스큐엘 인젝션"
+  ],
+  "explanation": "로그인 칸에 ' OR '1'='1 같은 걸 넣는 그 공격이에요. 한 줄: 입력값에 SQL을 끼우면 SQL Injection.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t6",
+  "day": 2,
+  "topic": "암호",
+  "type": "term",
+  "prompt": "미국 NIST가 DES를 대체하기 위해 선정한 대칭키 블록 암호로, 128비트 블록에 128/192/256비트 키를 사용하는 알고리즘은?",
+  "answers": [
+   "AES",
+   "Advanced Encryption Standard",
+   "에이이에스"
+  ],
+  "explanation": "DES가 낡아서 새로 뽑은 국가대표예요. 한 줄: DES 후계, 키 128/192/256 = AES.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t7",
+  "day": 2,
+  "topic": "암호",
+  "type": "term",
+  "prompt": "큰 수의 소인수분해가 어렵다는 점에 기반한 대표적인 공개키(비대칭키) 암호 알고리즘은?",
+  "answers": [
+   "RSA",
+   "알에스에이"
+  ],
+  "explanation": "두 큰 소수를 곱하긴 쉬워도 곱한 결과에서 다시 쪼개긴 어렵다는 점을 이용해요. 한 줄: 소인수분해 기반 공개키 = RSA.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t8",
+  "day": 2,
+  "topic": "암호",
+  "type": "term",
+  "prompt": "한국인터넷진흥원(KISA)이 개발한 128비트 블록의 국산 대칭키 암호 알고리즘은?",
+  "answers": [
+   "SEED",
+   "씨드",
+   "시드"
+  ],
+  "explanation": "한국에서 만든 대표 대칭키예요. 한 줄: KISA가 만든 국산 대칭키 블록암호 = SEED.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t9",
+  "day": 2,
+  "topic": "네트워크 약어",
+  "type": "term",
+  "prompt": "IP 주소를 이용해 해당 장치의 물리적 주소(MAC)를 알아내는 프로토콜의 약어는?",
+  "answers": [
+   "ARP",
+   "Address Resolution Protocol",
+   "주소 결정 프로토콜"
+  ],
+  "explanation": "'192.168.0.5 누구세요? MAC 알려 주세요' 하고 방송하는 거예요. 한 줄: IP→MAC은 ARP.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t10",
+  "day": 2,
+  "topic": "네트워크 약어",
+  "type": "term",
+  "prompt": "IP 패킷 전달 중 발생한 오류를 보고하거나 ping(Echo) 같은 제어 메시지를 전달하는 프로토콜의 약어는?",
+  "answers": [
+   "ICMP",
+   "Internet Control Message Protocol",
+   "인터넷 제어 메시지 프로토콜"
+  ],
+  "explanation": "배달 사고 안내문과 '살아 있나요?' 확인 메시지 담당이에요. 한 줄: 오류 보고·ping은 ICMP.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t11",
+  "day": 2,
+  "topic": "네트워크 약어",
+  "type": "term",
+  "prompt": "네트워크에 접속한 호스트에 IP 주소, 서브넷 마스크, 게이트웨이 등을 자동으로 할당해 주는 프로토콜의 약어는?",
+  "answers": [
+   "DHCP",
+   "Dynamic Host Configuration Protocol",
+   "동적 호스트 구성 프로토콜"
+  ],
+  "explanation": "호텔 프런트가 방 번호(IP)를 자동으로 내주는 것과 같아요. 한 줄: IP 자동 할당은 DHCP.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d2-t12",
+  "day": 2,
+  "topic": "네트워크 약어",
+  "type": "term",
+  "prompt": "내부의 사설 IP 주소와 외부의 공인 IP 주소를 서로 변환해 주는 기술의 약어는?",
+  "answers": [
+   "NAT",
+   "Network Address Translation",
+   "네트워크 주소 변환"
+  ],
+  "explanation": "회사 대표 전화번호 하나로 내선 여러 개를 연결하는 모양이에요. 한 줄: 사설↔공인 IP 변환은 NAT.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ }
+]

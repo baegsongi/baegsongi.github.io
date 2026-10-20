@@ -1,0 +1,179 @@
+[
+ {
+  "id": "d5-c1",
+  "day": 5,
+  "topic": "프로세스 스케줄링",
+  "type": "calc",
+  "prompt": "다음 프로세스를 HRN(비선점) 방식으로 처리할 때 평균 대기시간은? (우선순위 = (대기시간 + 실행시간) / 실행시간, 값이 클수록 먼저)\nP1(도착 0, 실행 3)\nP2(도착 2, 실행 6)\nP3(도착 4, 실행 4)\nP4(도착 6, 실행 5)\nP5(도착 8, 실행 2)",
+  "answers": [
+   "4",
+   "4.0",
+   "4.00"
+  ],
+  "explanation": "HRN은 '기다린 만큼 가산점을 주는 SJF'예요. 한 프로세스가 끝날 때마다 줄에 선 사람의 우선순위를 다시 계산해요.\n시각 0: P1만 있어서 0~3. 시각 3: 와 있는 건 P2뿐이라 3~9. 시각 9: P3(대기 5, 실행 4)=2.25, P4(대기 3, 실행 5)=1.6, P5(대기 1, 실행 2)=1.5 → P3가 9~13. 시각 13: P4(대기 7, 실행 5)=2.4, P5(대기 5, 실행 2)=3.5 → P5가 13~15, 마지막 P4가 15~20.\n대기시간(시작−도착): P1 0, P2 1, P3 5, P4 9, P5 5. 합 20, 5명이니 평균 4.\n한 줄 정리: 끝날 때마다 (대기+실행)/실행을 다시 계산한다.",
+  "difficulty": 3,
+  "tags": [
+   "verify:hrn_wait",
+   "스케줄링"
+  ]
+ },
+ {
+  "id": "d5-c2",
+  "day": 5,
+  "topic": "페이지 교체",
+  "type": "calc",
+  "prompt": "프레임이 3개이고 처음에는 모두 비어 있다. OPT(최적) 방식으로 교체할 때 페이지 부재 횟수는?\n참조 문자열: 2 3 2 1 5 2 4 5 3 2 5 2",
+  "answers": [
+   "6",
+   "6번",
+   "6회"
+  ],
+  "explanation": "OPT는 '앞으로 가장 늦게 쓰일 페이지를 치우는' 미래를 아는 방식이에요.\n2 부재, 3 부재, 2 적중, 1 부재(세 칸 [2,3,1]). 5가 오면 뒤를 봐요. 앞으로 2는 곧, 3은 조금 뒤에 쓰이고 1은 다시 안 쓰이니 1을 치워요 [2,3,5] — 부재 4번째.\n2 적중. 4가 오면 뒤에서 5, 3, 2 순으로 쓰이니 가장 늦은 2를 치워요 [3,5,4] — 부재 5번째. 5 적중, 3 적중. 2가 오면 3과 4는 더 안 쓰여서 아무거나 치워도 돼요 — 부재 6번째. 5, 2는 적중.\n합하면 6번. 한 줄 정리: 뒤를 보고 '다시 안 쓰거나 가장 늦게 쓰는 것'을 치운다.",
+  "difficulty": 3,
+  "tags": [
+   "verify:opt",
+   "페이지교체"
+  ]
+ },
+ {
+  "id": "d5-c3",
+  "day": 5,
+  "topic": "C 포인터",
+  "type": "code",
+  "prompt": "다음 C 프로그램의 출력 결과를 순서대로 쓰시오. (공백 구분)\n```c\n#include <stdio.h>\n\nint main() {\n    int m[2][3] = {{1, 2, 3}, {4, 5, 6}};\n    int *p = &m[0][0];\n    int s = 0;\n    for (int i = 0; i < 6; i += 2)\n        s += *(p + i);\n    printf(\"%d %d %d\\n\", *(p + 4), *(*(m + 1) + 1), s);\n    return 0;\n}\n```",
+  "answers": [
+   "5 5 9"
+  ],
+  "explanation": "2차원 배열 m은 메모리에 1,2,3,4,5,6이 한 줄로 이어져 있어요. p는 첫 칸을 가리켜요.\n*(p+4)는 p에서 네 칸 뒤, 즉 5예요. *(*(m+1)+1)은 m[1][1]이라 5.\n반복문은 i가 0, 2, 4일 때 *(p+i)를 더해요. 1+3+5=9. 그래서 '5 5 9'.\n한 줄 정리: 2차원 배열도 메모리에선 한 줄, m[i][j]=*(*(m+i)+j).",
+  "difficulty": 3,
+  "tags": [
+   "verify:c",
+   "C 포인터"
+  ]
+ },
+ {
+  "id": "d5-c4",
+  "day": 5,
+  "topic": "Java 상속·오버라이딩",
+  "type": "code",
+  "prompt": "다음 Java 프로그램의 출력 결과를 쓰시오. (공백 없이 이어서)\n```java\npublic class Main {\n    static String f(Object o) { return \"O\"; }\n    static String f(String s) { return \"S\"; }\n\n    public static void main(String[] args) {\n        Object x = \"hi\";\n        String y = \"hi\";\n        System.out.println(f(x) + f(y) + f((Object) y));\n    }\n}\n```",
+  "answers": [
+   "OSO"
+  ],
+  "explanation": "오버로딩(같은 이름 다른 매개변수)은 오버라이딩과 달리 '변수에 적힌 타입'으로 컴파일할 때 정해져요.\nf(x): x는 실제로 \"hi\" 문자열이지만 변수 타입이 Object라서 f(Object)가 불려요 → O. f(y): 타입이 String이라 f(String) → S. f((Object) y): 형변환으로 Object가 되어 f(Object) → O.\n이어 쓰면 OSO. 한 줄 정리: 오버로딩은 변수 타입, 오버라이딩은 실제 객체.",
+  "difficulty": 3,
+  "tags": [
+   "verify:java",
+   "Java 상속·오버라이딩"
+  ]
+ },
+ {
+  "id": "d5-t1",
+  "day": 5,
+  "topic": "프로세스 스케줄링",
+  "type": "term",
+  "prompt": "대기시간과 서비스(실행)시간을 함께 고려해 (대기시간+서비스시간)/서비스시간 값이 큰 프로세스에게 우선순위를 주는 비선점 스케줄링은? (약어로)",
+  "answers": [
+   "HRN",
+   "Highest Response ratio Next",
+   "Highest Response Ratio Next",
+   "highest response ratio next"
+  ],
+  "explanation": "SJF의 기아 문제를 줄이려고 기다린 시간을 반영한 방식이에요. 한 줄: (대기+실행)/실행이 큰 순은 HRN.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d5-t2",
+  "day": 5,
+  "topic": "페이지 교체",
+  "type": "term",
+  "prompt": "앞으로 가장 오랫동안 사용되지 않을 페이지를 교체하는, 페이지 부재가 가장 적지만 실제 구현은 불가능한 알고리즘은? (약어로)",
+  "answers": [
+   "OPT",
+   "Optimal",
+   "최적 교체",
+   "Optimal Replacement",
+   "최적",
+   "옵티멀"
+  ],
+  "explanation": "미래를 알아야 쓸 수 있어서 비교 기준으로만 써요. 한 줄: 가장 늦게 쓰일 페이지 교체는 OPT.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d5-t3",
+  "day": 5,
+  "topic": "네트워크 약어",
+  "type": "term",
+  "prompt": "www.example.com 같은 도메인 이름을 IP 주소로 변환해 주는 시스템의 약어는?",
+  "answers": [
+   "DNS",
+   "Domain Name System",
+   "도메인 네임 시스템"
+  ],
+  "explanation": "인터넷의 전화번호부예요. 한 줄: 이름→IP 변환은 DNS.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d5-t4",
+  "day": 5,
+  "topic": "보안 공격",
+  "type": "term",
+  "prompt": "사용자와 서버 간 통신에서 세션 ID를 가로채 정상 사용자인 것처럼 서버에 접속하는 공격은?",
+  "answers": [
+   "세션 하이재킹",
+   "Session Hijacking",
+   "session hijacking",
+   "세션하이재킹"
+  ],
+  "explanation": "남의 입장권을 훔쳐 대신 들어가는 거예요. 한 줄: 세션 ID를 가로채면 세션 하이재킹.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d5-t5",
+  "day": 5,
+  "topic": "디자인 패턴",
+  "type": "term",
+  "prompt": "알고리즘군을 각각 캡슐화해 서로 바꿔 쓸 수 있게 만들어, 클라이언트와 독립적으로 알고리즘을 변경할 수 있게 하는 행위 패턴은?",
+  "answers": [
+   "전략",
+   "Strategy",
+   "strategy",
+   "스트래티지",
+   "전략 패턴"
+  ],
+  "explanation": "내비게이션에서 '최단 거리'와 '무료 도로'를 바꿔 끼우는 것과 같아요. 한 줄: 알고리즘 교체는 Strategy.",
+  "difficulty": 2,
+  "tags": [
+   "term"
+  ]
+ },
+ {
+  "id": "d5-t6",
+  "day": 5,
+  "topic": "DB 용어",
+  "type": "term",
+  "prompt": "CREATE, ALTER, DROP처럼 테이블 등 데이터베이스 구조를 정의하거나 변경하는 SQL 명령어 종류의 약어는?",
+  "answers": [
+   "DDL",
+   "데이터 정의어",
+   "Data Definition Language"
+  ],
+  "explanation": "틀(구조)을 짓고 고치고 부수는 명령이에요. 한 줄: 구조 정의는 DDL.",
+  "difficulty": 1,
+  "tags": [
+   "term"
+  ]
+ }
+]
