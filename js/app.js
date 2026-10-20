@@ -83,6 +83,7 @@
     route(pattern, fn) { App.routes.push({ parts: pattern.split('/'), fn }); },
     render() {
       clearInterval(App.timer);
+      if (root.Calc) root.Calc.unmount();
       const hash = (location.hash || '#/').replace(/^#\/?/, '');
       const segs = hash.split('/').filter(Boolean);
       const appEl = document.getElementById('app');

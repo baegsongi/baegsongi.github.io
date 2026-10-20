@@ -140,3 +140,21 @@ def test_topic_stats_override_wins():
           {"topic": "A", "auto": "unsure", "override": None}]
     st = call(("topicStats", [at]))[0]
     assert st["A"]["total"] == 3 and st["A"]["correct"] == 1
+
+
+# ---------- 계산기 ----------
+@pytest.mark.parametrize("expr,val", [
+    ("1+2*3", 7), ("(1+2)*3", 9), ("2^10", 1024), ("2^3^2", 512), ("-3+5", 2), ("10÷4", 2.5),
+    ("7 mod 3", 1), ("8×3+2×1", 26), ("(13−4)/2", 4.5), (".5+.25", 0.75), ("2*-3", -6),
+])
+def test_calc_evaluate(expr, val):
+    r = subprocess.run(["node", "-e", "console.log(require('./js/calc.js').evaluate(process.argv[1]))", "--", expr],
+                       cwd=ROOT, capture_output=True, text=True, check=True)
+    assert float(r.stdout) == pytest.approx(val)
+
+
+@pytest.mark.parametrize("expr", ["", "1+", "(1+2", "1/0", "abc", "2**3"])
+def test_calc_rejects_bad(expr):
+    r = subprocess.run(["node", "-e", "require('./js/calc.js').evaluate(process.argv[1])", "--", expr],
+                       cwd=ROOT, capture_output=True, text=True)
+    assert r.returncode != 0

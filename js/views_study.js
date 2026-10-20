@@ -88,9 +88,13 @@
         placeholder: '정답 (단답)', value: sess.answers[id] || '',
         oninput: (e) => { sess.answers[id] = e.target.value; St.save(); },
         onkeydown: (e) => { if (e.key === 'Enter') { const n = w.querySelectorAll('.q input')[i + 1]; if (n) { e.preventDefault(); n.focus(); } } } });
+      sess.memos = sess.memos || {};
+      const memo = h('textarea', { class: 'memo', rows: 3, placeholder: '메모 (풀이 과정·계산 적는 곳)',
+        oninput: (e) => { sess.memos[id] = e.target.value; St.save(); } }, sess.memos[id] || '');
       w.append(h('div', { class: 'card q' }, h('div', null, h('span', { class: 'qno' }, `Q${i + 1}. `), h('span', { class: 'pill' }, q.topic), h('span', { class: 'pill' }, C.isCalc(q) ? (q.type === 'code' ? '코드' : '계산') : '용어')),
-        rich(q.prompt), inp));
+        rich(q.prompt), inp, memo));
     });
+    root.Calc.mount();
     w.append(h('button', { class: 'btn', onclick: () => {
       const blank = sess.qids.filter((id) => !(sess.answers[id] || '').trim()).length;
       if (blank && !confirm(`빈 문제가 ${blank}개 있어요. 그래도 제출할까요?`)) return;
@@ -113,6 +117,7 @@
       at.override != null ? h('span', { class: 'pill' }, '내가 수정') : null, h('span', { class: 'pill' }, q.topic)),
       rich(q.prompt),
       h('div', { class: 'txt' }, h('b', null, '내 답: '), at.answer || '(빈칸)'),
+      (sess.memos && sess.memos[qid]) ? h('div', { class: 'txt muted' }, '📝 ' + sess.memos[qid]) : null,
       h('div', { class: 'txt' }, h('b', null, '정답: '), q.answers.slice(0, 3).join('  /  ')),
       h('details', null, h('summary', null, '해설 대본 보기'), rich(q.explanation)),
       h('div', { class: 'row', style: 'margin-top:8px' },
