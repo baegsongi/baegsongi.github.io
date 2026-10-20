@@ -169,17 +169,7 @@
           h('span', { class: 'muted' }, pct(r)));
       })));
 
-    wrap.append(h('div', { class: 'card small' }, h('b', null, '기록 백업'),
-      h('div', { class: 'muted' }, '풀이 기록은 이 기기의 브라우저에만 저장돼요. 폰↔PC 옮길 때 내보내기/가져오기를 쓰세요.'),
-      h('div', { class: 'row', style: 'margin-top:8px' },
-        h('button', { class: 'btn sec', onclick: () => {
-          const a = h('a', { href: URL.createObjectURL(new Blob([St.exportJSON()], { type: 'application/json' })), download: `ipsa-backup-${c.today}.json` });
-          document.body.append(a); a.click(); a.remove();
-        } }, '내보내기'),
-        h('label', { class: 'btn sec' }, '가져오기', h('input', { type: 'file', accept: 'application/json', style: 'display:none', onchange: async (e) => {
-          const f = e.target.files[0]; if (!f) return;
-          try { St.importJSON(await f.text()); App.render(); } catch (err) { alert('가져오기 실패: ' + err.message); }
-        } })))));
+    wrap.append(h('a', { class: 'btn sec', href: '#/sync' }, '💾 저장 / 불러오기 (파일)'));
     return wrap;
   });
 })(window);
