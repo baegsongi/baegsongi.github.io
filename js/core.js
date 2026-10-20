@@ -86,6 +86,7 @@
       for (const x of variants(String(a))) {
         for (const u of uv) {
           if (Math.min(x.length, u.length) < 3) continue;
+          if (x.replace(/\D/g, '') !== u.replace(/\D/g, '')) continue; // 숫자가 다르면 오타가 아니라 다른 답
           const d = lev(x, u);
           if (d <= (x.length >= 8 ? 2 : 1)) return { verdict: 'unsure' };
           const [s, l] = x.length <= u.length ? [x, u] : [u, x];
