@@ -54,13 +54,13 @@ table.t{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}table.t 
 .hide-print{}
 @media print{
   @page{size:A4;margin:12mm}
-  body{background:#fff;color:#000;font-size:10.5pt;line-height:1.45;padding:0}
+  body{background:#fff;color:#000;font-size:8.5pt;line-height:1.35;padding:0}
   .top,.tabs,.disc,.hide-print,.btn{display:none!important}
   main{max-width:none;padding:0}
   .card{border:0;padding:0;margin:0 0 6px;break-inside:avoid}
-  .a4{column-count:2;column-gap:8mm}
+  .a4{column-count:3;column-gap:5mm}
   .a4 .card{break-inside:avoid;border-bottom:1px solid #999;padding-bottom:4px}
-  .a4 h3{font-size:10.5pt;margin:4px 0 2px;background:#eee;padding:1px 4px}
+  .a4 h3{font-size:8.8pt;margin:4px 0 2px;background:#eee;padding:1px 4px}
   .sum,.mn{background:none;border-left:2px solid #555;font-weight:400;padding:0 6px;margin:2px 0}
   pre{background:#f3f3f3;color:#000}
 }
