@@ -121,6 +121,7 @@
       });
       window.addEventListener('hashchange', App.render);
       App.render();
+      if (App.Sync) App.Sync.init().then(() => { if (!/^#\/run/.test(location.hash)) App.render(); });
     },
   };
   root.App = App;

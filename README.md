@@ -12,7 +12,7 @@ GitHub Pages는 정적 호스팅이라 Flask/SQLite 서버를 돌릴 수 없습�
 | 원래 | 실제 |
 |---|---|
 | Flask + Jinja2 서버 렌더링 | 정적 HTML + 바닐라 JS (hash 라우팅) |
-| data/study.db (sqlite) | 브라우저 localStorage + **파일 저장/불러오기(JSON)** |
+| data/study.db (sqlite) | 브라우저 localStorage + **저장소 자동 동기화(`data/progress.json`)** |
 | seed.py (중복 없이 시드) | 불필요: 콘텐츠는 `content/*.json`을 매번 읽고, 풀이 기록은 별도 저장소라 콘텐츠를 고쳐도 지워지지 않음 |
 | `flask run` | `python -m http.server` (로컬) 또는 GitHub Pages |
 
@@ -21,8 +21,10 @@ GitHub Pages는 정적 호스팅이라 Flask/SQLite 서버를 돌릴 수 없습�
 - 로컬: `python -m http.server 8000` → http://localhost:8000
 - 같은 와이파이의 폰에서: `python -m http.server 8000 --bind 0.0.0.0` 후 폰에서 `http://<PC의 IP>:8000`
 - 오늘 날짜는 KST 기준 자동 인식. 하루 밀렸으면 화면 위 "오늘을 [ ]" 에서 N일차로 지정하세요(이후 날짜는 자동으로 +1).
-- **기록 옮기기**: 홈 하단 "저장 / 불러오기"에서 JSON 파일로 저장 → 다른 PC에서 "파일 불러오기".
-  기록은 기기·브라우저별로 따로이므로, PC를 바꾸기 전에 꼭 저장하세요.
+- **PC 간 동기화(자동)**: 홈 하단 "저장 / 불러오기"에서 GitHub 토큰을 한 번만 넣으면, 풀이할 때마다 3초 뒤 `data/progress.json`이 `main`에 자동 커밋되고, 다른 PC에서 열면 자동으로 불러와 병합합니다(풀이·세션은 합집합, 충돌 시 재시도).
+  - 토큰: GitHub → Settings → Developer settings → Fine-grained tokens → 이 저장소만 선택 → Contents: Read and write. 토큰은 그 브라우저의 localStorage에만 저장되고 저장소에는 올라가지 않습니다.
+  - 저장소가 공개이므로 학습 기록(개인정보 없음)도 공개됩니다. 토큰이 없는 기기는 읽기만 합니다.
+  - 보조로 JSON 파일 저장/불러오기도 남겨 두었습니다.
 
 ## 구조
 ```
